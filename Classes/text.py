@@ -1,7 +1,7 @@
 import pygame
 pygame.font.init()
 class Text():
-    def __init__(self, fontSize, fontColor, text, fontPos, textSurf ="not created yet" ,font = "not created yet", fontstyle=None):
+    def __init__(self, fontSize, fontColor, text, fontPos, textSurf ="not created yet" ,font = "not created yet", fontstyle=None, textRect = 'none', createdTime = None):
         self.fontSize = fontSize
         self.fontColor = fontColor
         self.text = text
@@ -9,7 +9,9 @@ class Text():
         self.textSurf = textSurf
         self.font = font
         self.fontstyle = fontstyle
-    
+        self.textRect = textRect
+        self.createdTime = pygame.time.get_ticks() if createdTime is None else createdTime
+
     def createFont(self):
        self.font = pygame.font.Font(self.fontstyle, self.fontSize)
 
@@ -21,3 +23,10 @@ class Text():
         self.text = newText
         self.textSurf = self.font.render(self.text, False, self.fontColor)
         screen.blit(self.textSurf, self.fontPos)
+
+    def textLifeCycle(self, lifeSpan):
+        elapsedTime = (pygame.time.get_ticks() - self.createdTime) / 1000
+        if elapsedTime < lifeSpan:
+            return True
+        else:
+            return False

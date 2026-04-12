@@ -3,7 +3,7 @@ import pygame
 from sys import exit
 from Game.init import( FFsettings, gameClock, 
 background,floor, farmer, moneyText, 
-waterText, timeText, plantsPlanted)
+waterText, timeText, plantsPlanted, tempTexts)
 pygame.init()
 gameScreen = FFsettings.startScreen()
 while True:
@@ -20,10 +20,17 @@ while True:
     for plant in plantsPlanted:
        plant.growPlant()
        plant.displayPlant(gameScreen)
+    
+    for text in list(tempTexts):
+       if text.textLifeCycle(3) == True:
+         text.displayStaticText(gameScreen)
+       else:
+          tempTexts.remove(text)
 
     farmer.displayCharacter(gameScreen)
     farmer.walkCharacter(userKeyPress)
     farmer.plantSeed(userKeyPress, plantsPlanted)
+    farmer.HarvestSeed(userKeyPress, plantsPlanted, tempTexts)
 
     moneyText.displayDynamicText(gameScreen, f'Money: {farmer.money}')
     waterText.displayDynamicText(gameScreen, f'Water: {farmer.money}')

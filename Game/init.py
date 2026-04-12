@@ -24,3 +24,4 @@ timeText = Text(20, 'black', 'none', (1100,90))
 timeText.createFont()
 
 plantsPlanted = []
+tempTexts = []

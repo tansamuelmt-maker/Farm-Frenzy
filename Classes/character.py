@@ -1,6 +1,7 @@
 #Where class of character is built
 import pygame
 from Classes.plant import Plant
+from Classes.text import Text
 pygame.init()
 class Character():
  
@@ -29,7 +30,16 @@ class Character():
 
  def plantSeed(self, keyPress, plantList):
   if keyPress[pygame.K_e] and pygame.KEYDOWN:
-    newPlant = Plant((self.characterXPos, self.characterYPos), 10)
+    newPlant = Plant(self.characterXPos, self.characterYPos, 10)
     plantList.append(newPlant)
 
- def HarvestSeed(self,)
+ def HarvestSeed(self, keyPress,plantList, textList):
+  for plant in list(plantList):
+   if keyPress[pygame.K_r] and pygame.KEYDOWN and self.characterRect.colliderect(plant.plantRect):
+     if plant.isFruiting == True:
+      plantList.remove(plant)
+     else: 
+      remainingTime = plant.growthTime - (int(pygame.time.get_ticks() / 1000) - plant.plantedTime)
+      cantHarvText = Text(20, 'black', f'wait {remainingTime} seconds until you may harvest this', (plant.plantXPos, plant.plantYPos - 50))
+      cantHarvText.createFont()
+      textList.append(cantHarvText)
