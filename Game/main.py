@@ -1,10 +1,12 @@
 #This is the main file, where the main function of the code is added, dictating the sequence of the code
 import pygame
 from sys import exit
-from Game.init import( FFsettings, gameClock, 
-background,floor, farmer, moneyText, 
-waterText, timeText, tempTexts, plotArray, InvMapping, InvKeys)
 pygame.init()
+pygame.display.set_mode((1200, 500))
+from Game.init import( FFsettings, gameClock,
+background,floor, farmer, moneyText,
+waterText, timeText, tempTexts, plotArray, InvMapping, InvKeys
+, printButton)
 gameScreen = FFsettings.startScreen()
 while True:
     userKeyPress = pygame.key.get_pressed()
@@ -38,12 +40,14 @@ while True:
     for inventorySlot in list(farmer.inventory):
        inventorySlot.drawInvSlot(gameScreen)
 
+    printButton.displayButton(gameScreen)
+
     farmer.displayCharacter(gameScreen)
     farmer.walkCharacter(userKeyPress)
 
     moneyText.displayDynamicText(gameScreen, f'Money: {farmer.money}')
-    waterText.displayDynamicText(gameScreen, f'Water: {farmer.money}')
-    timeText.displayDynamicText(gameScreen, f'time : {currentTime}')
+    waterText.displayDynamicText(gameScreen, f'Water: {farmer.water} / 30')
+    timeText.displayDynamicText(gameScreen, f'Time : {currentTime}')
 
     FFsettings.startClock(gameClock)
     pygame.display.update()

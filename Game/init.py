@@ -7,6 +7,7 @@ from Classes.gameSettings import gameSettings
 from Classes.environment import environment
 from Classes.text import Text
 from Classes.plot import Plot, createPlotArray
+from Classes.button import Button
 gameClock = pygame.time.Clock()
 FFsettings = gameSettings((1200,500), 30)
 
@@ -19,10 +20,13 @@ farmer = Character()
 
 moneyText = Text(20,'black', f'Money: {farmer.money}',(1100, 50))
 moneyText.createFont()
+moneyText.topLeftPosText()
 waterText = Text(20,'black', f'water: {farmer.water} / 30', (1100, 70))
 waterText.createFont()
+waterText.topLeftPosText()
 timeText = Text(20, 'black', 'none', (1100,90))
 timeText.createFont()
+timeText.topLeftPosText()
 
 summerTime = range(1,250)
 autumnTime = range(251,500)
@@ -46,3 +50,9 @@ InvMapping = {
 }
 InvKeys = InvMapping.keys()
 tempTexts = []
+buttonPosition = (900, 100)
+def buttonFunction():
+    print("button is pressed")
+printButtonText = Text(20, 'black', 'Press this button', buttonPosition)
+printButton = Button(printButtonText, (200,80), 'yellow', buttonPosition, buttonFunction, (), {})
+printButton.createButton()
