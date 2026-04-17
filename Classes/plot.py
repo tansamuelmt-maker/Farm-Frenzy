@@ -29,3 +29,4 @@ def createPlotArray():
         if x == 5:
             startingXPos += 200
     return newPlotArray
+plotArray = createPlotArray()

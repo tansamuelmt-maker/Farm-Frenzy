@@ -1,8 +1,8 @@
 #Where class of character is built
 import pygame
-from Classes.plant import Plant, Apple, Pear, Banana, Watermelon, Corn, Wheat
+from Classes.plant import Plant, Apple, Pear, Banana, Watermelon, Corn, Wheat, plantInfoList
 from Classes.text import Text
-from Classes.inventory import createInventory
+from Classes.inventory import createInventory, InvMappingPlainText, InvMapping, InvKeys
 from Classes.scaleImage import scaleImg
 pygame.init()
 class Character():
@@ -14,7 +14,7 @@ class Character():
   self.money = 100
   self.water = 30
   self.characterRect = None
-  self.inventory = createInventory()
+  self.inventory = createInventory(plantInfoList, InvMappingPlainText)
   self.selectedSlot = None
   self.characterLeft = scaleImg(pygame.image.load('images/farmer_sprite_left.png').convert_alpha(), 0.3)
   self.characterRight = scaleImg(pygame.image.load('images/farmer_sprite_right.png').convert_alpha(), 0.3)
@@ -56,10 +56,14 @@ class Character():
       cantHarvText.createFont()
       cantHarvText.centerPosText()
       textList.append(cantHarvText)
- def accessInv(self, keyPress, keyPressMapping, keyPressMappingKeys):
-    if keyPress in keyPressMappingKeys:
-     self.selectedSlot = keyPressMapping[keyPress]
+ def accessInv(self, keyPress):
+    if keyPress in InvKeys:
+     self.selectedSlot = InvMapping[keyPress]
      self.inventory[self.selectedSlot].selected = True
      for inventorySlot in self.inventory:
       if inventorySlot.selected == True and self.inventory.index(inventorySlot) != self.selectedSlot:
        inventorySlot.selected = False #Minor aid from AI to edit syntax errors and logical errors
+       '''
+ def buySeed(self, buyOrder, PlantInfoList):
+    if self.money >
+    '''

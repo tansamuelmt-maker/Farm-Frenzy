@@ -4,9 +4,9 @@ from sys import exit
 pygame.init()
 pygame.display.set_mode((1200, 500))
 from Game.init import( FFsettings, gameClock,
-background,floor, farmer, moneyText,
-waterText, timeText, tempTexts, plotArray, InvMapping, InvKeys
-, printButton)
+background,floor1, floor2, farmer, moneyText,
+waterText, timeText, tempTexts, plotArray,
+ printButton, springTime, summerTime, winterTime, autumnTime)
 gameScreen = FFsettings.startScreen()
 while True:
     userKeyPress = pygame.key.get_pressed()
@@ -15,13 +15,12 @@ while True:
           pygame.quit()
           exit()
        if event.type == pygame.KEYDOWN:
-          farmer.accessInv(event.key, InvMapping, InvKeys)
+          farmer.accessInv(event.key)
     currentTime = int(pygame.time.get_ticks() / 1000)
       
-       
-
-    background.displayImage(gameScreen)
-    floor.displayImage(gameScreen)
+    background.displayImage(gameScreen, currentTime, summerTime, autumnTime,winterTime,springTime)
+    floor1.displayImage(gameScreen, currentTime, summerTime, autumnTime, winterTime, springTime)
+    floor2.displayImage(gameScreen, currentTime, summerTime, autumnTime, winterTime, springTime)
 
     for plot in plotArray:
        if plot.isEmpty == False:

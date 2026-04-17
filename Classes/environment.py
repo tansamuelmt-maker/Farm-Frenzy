@@ -1,13 +1,19 @@
 #Where class of environment is built
 import pygame
 class environment():
-    def __init__(self, envDim, envCol, envPos, envImage = "Null"):
-        self.envDim = envDim
-        self.envCol = envCol
+    def __init__(self, summerImg, autumnImg, winterImg, springImg, envPos):
+        self.summerImg = summerImg
+        self.autumnImg = autumnImg
+        self.winterImg = winterImg
+        self.spring = springImg
         self.envPos = envPos
-        self.envImage = envImage
-    def createEnv(self):
-        self.envImage = pygame.Surface(self.envDim)
-        self.envImage.fill(self.envCol)
-    def displayImage(self, screen):
-        screen.blit(self.envImage, self.envPos)
+    def displayImage(self, screen, gameTime, summerRange, autumnRange, winterRange, springRange):
+        if gameTime in summerRange:
+            screen.blit(self.summerImg, self.envPos)
+        elif gameTime in autumnRange:
+            screen.blit(self.autumnImg, self.envPos)
+        elif gameTime in winterRange:
+            screen.blit(self.winterImg, self.envPos)
+        elif gameTime in springRange:
+            screen.blit(self.spring, self.envPos)
+        
