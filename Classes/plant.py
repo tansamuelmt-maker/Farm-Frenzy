@@ -43,8 +43,9 @@ class Apple(Plant):
      self.regrowthTime = 10
      self.fruitPrice = 30
      self.seedCost = 10
-     self.fruitImage = pygame.image.load('images/apple_fruit.png').convert_alpha()
-     self.seedImage = pygame.image.load('images/apple_seed.png').convert_alpha()
+     self.waterCost = 10
+     self.fruitImage = scaleImg(pygame.image.load('images/apple_fruit.png').convert_alpha(), 0.05)
+     self.seedImage = scaleImg(pygame.image.load('images/apple_seed.png').convert_alpha(), 0.05)
      self.growInWinter = True
 class Pear(Plant):
  def __init__(self, plantXPos, plantYPos):  
@@ -61,8 +62,9 @@ class Pear(Plant):
      self.regrowthTime = 20
      self.fruitPrice = 25
      self.seedCost = 6
-     self.fruitImage = pygame.image.load('images/pear_fruit.png').convert_alpha()
-     self.seedImage = pygame.image.load('images/pear_seed.png').convert_alpha()
+     self.waterCost = 9
+     self.fruitImage = scaleImg(pygame.image.load('images/pear_fruit.png').convert_alpha(),0.05)
+     self.seedImage = scaleImg(pygame.image.load('images/pear_seed.png').convert_alpha(),0.05)
      self.growInWinter = True
 class Banana(Plant):
  def __init__(self, plantXPos, plantYPos):  
@@ -78,8 +80,9 @@ class Banana(Plant):
      self.growthTime = 20
      self.fruitPrice = 26
      self.seedCost = 15
-     self.fruitImage = pygame.image.load('images/banana_fruit.png').convert_alpha()
-     self.seedImage = pygame.image.load('images/banana_seed.png').convert_alpha()
+     self.waterCost = 9
+     self.fruitImage = scaleImg(pygame.image.load('images/banana_fruit.png').convert_alpha(), 0.05)
+     self.seedImage = scaleImg(pygame.image.load('images/banana_seed.png').convert_alpha(), 0.05)
      self.growInWinter = False
 class Watermelon(Plant):
  def __init__(self, plantXPos, plantYPos):  
@@ -95,8 +98,9 @@ class Watermelon(Plant):
      self.growthTime = 25
      self.fruitPrice = 35
      self.seedCost = 20
-     self.fruitImage = pygame.image.load('images/watermelon_fruit.png').convert_alpha()
-     self.seedImage = pygame.image.load('images/apple_fruit.png').convert_alpha()
+     self.waterCost = 12
+     self.fruitImage = scaleImg(pygame.image.load('images/watermelon_fruit.png').convert_alpha(), 0.05)
+     self.seedImage = scaleImg(pygame.image.load('images/watermelon_seed.png').convert_alpha(), 0.05)
      self.growInWinter = False
 class Corn(Plant):
  def __init__(self, plantXPos, plantYPos):  
@@ -112,8 +116,9 @@ class Corn(Plant):
      self.growthTime = 13
      self.fruitPrice = 10
      self.seedCost = 7
-     self.fruitImage = pygame.image.load('images/corn_fruit.png').convert_alpha()
-     self.seedImage = pygame.image.load('images/corn_seed.png').convert_alpha()
+     self.waterCost = 4
+     self.fruitImage = scaleImg(pygame.image.load('images/corn_fruit.png').convert_alpha(), 0.05)
+     self.seedImage = scaleImg(pygame.image.load('images/corn_seed.png').convert_alpha(), 0.05)
      self.growInWinter = False
 class Wheat(Plant):
  def __init__(self, plantXPos, plantYPos):  
@@ -129,8 +134,9 @@ class Wheat(Plant):
      self.growthTime = 9
      self.fruitPrice = 9
      self.seedCost = 7
-     self.fruitImage = pygame.image.load('images/wheat_fruit.png').convert_alpha()
-     self.seedImage = pygame.image.load('images/wheat_seed.png').convert_alpha()
+     self.waterCost = 3
+     self.fruitImage = scaleImg(pygame.image.load('images/wheat_fruit.png').convert_alpha(), 0.05)
+     self.seedImage = scaleImg(pygame.image.load('images/wheat_seed.png').convert_alpha(), 0.05)
      self.growInWinter = False
      
 
@@ -144,10 +150,11 @@ def createPlantInfoList():
       plantGrowthTime = plant.growthTime
       plantSeedCost = plant.seedCost
       plantFruitPrice = plant.fruitPrice
+      plantWaterCost = plant.waterCost
       plantSeedImage = plant.seedImage
       plantFruitImage = plant.fruitImage
       plantWinterGrowth = plant.growInWinter
-      plantInfoList.append([plantName, plantGrowthTime, plantSeedCost, plantFruitPrice, plantSeedImage, plantFruitImage, plantWinterGrowth])
+      plantInfoList.append([plantName, plantGrowthTime, plantSeedCost, plantFruitPrice, plantWaterCost, plantSeedImage, plantFruitImage, plantWinterGrowth])
    return plantInfoList
 plantInfoList = createPlantInfoList()
 

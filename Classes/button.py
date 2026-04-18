@@ -26,6 +26,5 @@ class Button():
                self.clicked = True
           if pygame.mouse.get_pressed()[0] == 0:
               self.clicked = False
-        self.buttonText.createFont()
         self.buttonText.centerPosText()
         self.buttonText.displayStaticText(screen)

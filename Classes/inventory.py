@@ -15,15 +15,18 @@ class InventorySlot():
         self.quantityText = Text(15, 'white', f'{self.quantity}', (self.invXPos + 5, self.invYPos))
         self.selectedText = Text(20, 'white', f'{self.quantity} {self.name}' , (200, 100))
         self.keyMappingText = Text(18, 'white', f'{self.keyMapping}', (self.invXPos +5 ,self.invYPos -20))
+        self.itemrect = itemImage.get_rect(center = (self.invXPos+20, self.invYPos+20))
+        
     def drawInvSlot(self, screen):
         if self.selected == True:
-         self.selectedText.displayDynamicText(screen, f'{self.quantity} {self.name}')
+         if self.selected > 0:
+          self.selectedText.displayDynamicText(screen, f'{self.quantity} {self.name}')
          pygame.draw.rect(screen, (242, 250, 7), (self.invXPos,self.invYPos, 40,40))
         elif self.selected == False:
          pygame.draw.rect(screen, (102, 95, 95), (self.invXPos,self.invYPos, 40,40))
         pygame.draw.rect(screen, (199, 187, 187), (self.invXPos,self.invYPos,40,40),3)
         if self.quantity > 0:
-           screen.blit(self.itemImage, self , (self.invXPos, self.invYPos))
+           screen.blit(self.itemImage, self.itemrect)
         self.quantityText.displayDynamicText(screen, f'{self.quantity}')
         self.keyMappingText.displayStaticText(screen)
     def updateQuantity(self, changeInQuantity):
@@ -32,11 +35,11 @@ def createInventory(plantInfoList,KeyMapping):
     inventorySlots = []
     startingInvXPos = 43
     for x in range(6):
-        newSlot = InventorySlot(False, startingInvXPos,plantInfoList[x][0], "Seed", 0, plantInfoList[x][4], KeyMapping[x])
+        newSlot = InventorySlot(False, startingInvXPos,plantInfoList[x][0], "Seed", 5, plantInfoList[x][5], KeyMapping[x])
         inventorySlots.append(newSlot)
         startingInvXPos += 43
     for x in range(6):
-       newSlot = InventorySlot(False, startingInvXPos,plantInfoList[x][0], "Fruit", 0, plantInfoList[x][5], KeyMapping[x+6])
+       newSlot = InventorySlot(False, startingInvXPos,plantInfoList[x][0], "Fruit", 5, plantInfoList[x][6], KeyMapping[x+6])
        inventorySlots.append(newSlot)
        startingInvXPos += 43
     return inventorySlots

@@ -9,7 +9,6 @@ from Classes.text import Text
 from Classes.plot import plotArray
 from Classes.button import Button
 from Classes.scaleImage import scaleImg
-from Classes.plant import createPlantInfoList
 
 farmer = Character()
 
@@ -22,21 +21,16 @@ floor1 = environment(pygame.image.load('images/ground_summer.png'), pygame.image
 floor2 = environment(pygame.image.load('images/ground_summer.png'), pygame.image.load('images/ground_autumn.png'), pygame.image.load('images/ground_winter.png'), pygame.image.load('images/ground_spring.png'), (600,350))
 
 for inventorySlot in farmer.inventory:
-    inventorySlot.quantityText.createFont()
     inventorySlot.quantityText.topLeftPosText()
-    inventorySlot.keyMappingText.createFont()
     inventorySlot.keyMappingText.topLeftPosText()
-    inventorySlot.selectedText.createFont()
     inventorySlot.selectedText.centerPosText()
+
     
 moneyText = Text(20,'black', f'Money: {farmer.money}',(1100, 50))
-moneyText.createFont()
 moneyText.topLeftPosText()
 waterText = Text(20 ,'black', f'water: {farmer.water} / 30', (1100, 70))
-waterText.createFont()
 waterText.topLeftPosText()
 timeText = Text(20, 'black', 'none', (1100,90))
-timeText.createFont()
 timeText.topLeftPosText()
 
 summerTime = range(0,100)

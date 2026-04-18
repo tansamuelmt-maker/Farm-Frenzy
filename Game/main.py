@@ -27,8 +27,8 @@ while True:
         plot.plant.growPlant()
         plot.plant.displayPlant(gameScreen)
        plot.displayPlot(gameScreen)
-       farmer.plantSeed(userKeyPress, plot)
-       farmer.HarvestSeed(userKeyPress, tempTexts, plot)
+    farmer.plantSeed(userKeyPress, tempTexts, plotArray)
+    farmer.HarvestSeed(userKeyPress, tempTexts, plotArray)
     
     for text in list(tempTexts):
        if text.textLifeCycle(3) == True:
