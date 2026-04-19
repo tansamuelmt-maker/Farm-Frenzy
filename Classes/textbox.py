@@ -91,7 +91,6 @@ shopInfoTextBoxList = []
 for index in range(len(plantInfoList)):
     infoText1 = f"Time to grow: {plantInfoList[index][1]}              water cost to plant: {plantInfoList[index][4]}"
     infoText2 = f"seed price: ${plantInfoList[index][2]}               fruit sells for: ${plantInfoList[index][3]}"
-    infoText3 = f"grows in winter: {plantInfoList[index][7]} "
-    infoTextList = [infoText1, infoText2, infoText3]
+    infoTextList = [infoText1, infoText2]
     shopInfoText = TextBox(infoTextList, 20, (241, 195, 145), (213, 126, 106), 0, 0, None)
     shopInfoTextBoxList.append(shopInfoText)

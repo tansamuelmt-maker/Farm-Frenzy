@@ -6,6 +6,7 @@ class Menu():
     def __init__(self, menuText, menuTextColor, menuTextPos, menuBackgroundImg, menuButtonList, menuBackgroundPos):
         self.menuText = menuText
         self.menuTextColor = menuTextColor
+        self.menuTextPos = menuTextPos
         self.menuBackground = menuBackgroundImg
         self.menuButtonList = menuButtonList
         self.menuBackgroundPos = menuBackgroundPos
@@ -20,5 +21,7 @@ class Menu():
             button.drawHoverText(screen)
     def updateMenuText(self, newText):
         self.menuText = newText
+        self.menuTitle.text = newText
+        self.menuTitle.textSurf = self.menuTitle.font.render(newText, False, self.menuTextColor)
 
             

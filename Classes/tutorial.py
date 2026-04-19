@@ -8,7 +8,7 @@ class Tutorial(TextBox):
 
 introTutorialText = ["Welcome to Farm-Frenzy!",
                      "In this game, your goal is to earn money from planting and growing crops",
-                     "If you can earn $500 before the time turns 400 you win!",
+                     "If you can earn $500 ($600 total) before the time turns 400 you win!",
                      "Press T to continue to next tutorial"]
 movementTutorialText1 = ["In order to move left press A",
                          "Press T to continue to next tutorial"]
@@ -30,6 +30,8 @@ inventoryTutorialText2 = ["Look at the zeroes to the top right of the inventory"
 utilitiesTutorialText = ["Look over at the top right",
                          "Those three texts allow you to see how much money and water you have,",
                          "as well as the game's time",
+                         "Your water will be deducted every time you plant",
+                         "However it resets back to 30 every season",
                          "Press T to continue to next tutorial"]
 shopTutorialText = ["Look under the arrow now, that's a shop",
                     "To access the shop, simply stand next to it and press G",

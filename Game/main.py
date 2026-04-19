@@ -3,12 +3,13 @@ import pygame
 from sys import exit
 pygame.init()
 pygame.display.set_mode((1200, 500))
-from Game.init import( FFsettings, gameClock,
-background, floor1, floor2, moneyText,
-waterText, timeText,
-shop, barn, runGame,
-startMenu, endGame,
-gameState)
+from Game.init import (FFsettings, gameClock,
+    background, floor1, floor2, moneyText,
+    waterText, timeText,
+    shop, barn,
+    startMenu,
+    gameState, winText, lossText)
+from Game.gameProcesses import runGame, endGame
 gameScreen = FFsettings.startScreen()
 while True:
     userKeyPress = pygame.key.get_pressed()
@@ -24,7 +25,7 @@ while True:
     elif gameState['gameStarted'] == True and gameState['gameEnded'] == False:
        runGame(background, floor1, floor2, shop, barn, gameState, timeText, moneyText, waterText, gameScreen, userKeyPress, currentTime)
     elif gameState['gameStarted'] == False and gameState['gameEnded'] == True:
-       endGame(gameState, currentTime, gameScreen)
+       endGame(gameState, currentTime, gameScreen, winText, lossText)
 
     FFsettings.startClock(gameClock)
     pygame.display.update()

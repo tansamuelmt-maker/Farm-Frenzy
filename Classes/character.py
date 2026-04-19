@@ -1,58 +1,76 @@
-#Where class of character is built
+#Imports all necessary classes such as the plant class for planting, the plant info list for inventory information of the plants, text to display warning texts, scale image functions to scale the character image, and guiding text boxes.
+#Also imports all necessary mapping from key press to list index so that user can access inventory based on his/her key press.
 import pygame
-from Classes.plant import Plant, Apple, Pear, Banana, Watermelon, Corn, Wheat, plantInfoList
+from Classes.plant import Apple, Pear, Banana, Watermelon, Corn, Wheat, plantInfoList
 from Classes.text import Text
 from Classes.inventory import createInventory, InvMappingPlainText, InvMapping, InvKeys
 from Classes.scaleImage import scaleImg
 from Classes.textbox import plantText, HarvText, shopText
 
 pygame.init()
-
+#This is the character class that contains all the attributes of the character such as the image and the rectangle of the character, the starting utilities of money and water, the warning text to guide the character's actions.
+#This also contains all the actions the character can do like move around, plant and harvest crops, buy and sell crops, access inventory, access shop, etc.
 class Character():
-
+    #No attributes need to be passed into the character
     def __init__(self):
-        self.characterImage = scaleImg(pygame.image.load('images/farmer_sprite_right.png').convert_alpha(), 0.3)
+        #Character position is always initialized at the middle of the game, and ensures the character is standing on the floor.
         self.characterXPos = 600
         self.characterYPos = 350
+        #The starting utilities are initialized according to problem description, as the starting utilities that the user has to use to win the game.
         self.money = 100
         self.water = 30
-        self.characterRect = None
+        #This creates the starting and empty inventory of the character, the parameter's give information for the item's in the inventory and the key binds to access each inventory slot.
         self.inventory = createInventory(plantInfoList, InvMappingPlainText)
-        self.selectedSlot = None
+        #This determines which slot is selected by the user, ensuring only 1 slot can be selected at a time. The selected slot displays the information of the slot and allows the user to use the items in the slot for planting.
+        self.selectedSlot = None #Used AI's idea for an attribute of selected slot instead of a local variable in a function.
+        #This sets the character's movement images when the character moves left and right, the default image of the character and the rectangle of the character which needs to be updated when the character moves.
         self.characterLeft = scaleImg(pygame.image.load('images/farmer_sprite_left.png').convert_alpha(), 0.3)
         self.characterRight = scaleImg(pygame.image.load('images/farmer_sprite_right.png').convert_alpha(), 0.3)
+        self.characterImage = self.characterRight
+        self.characterRect = None
+        # Created by the AI to display warnings when the user lacks the criteria to execute certain actions.
+        #This will display a singular warning text always at fixed position and orients the text to be centered, ensuring only one warning is displayed at a time.
         # Warning text: persists across frames so the 2-second timer works correctly
         self.warningMessage = ""
         self.warningTimer = 0
+        #Red text to capture the user's attention more easily.
         self.warningTextObj = Text(20, 'red', " ", (600, 150))
         self.warningTextObj.centerPosText()
         # Feedback messages shown in the plot textbox for 2 seconds after an action
+        #These attributes allow for a specific warning to be displayed so the user knows what steps to do to achieve the intended goal.
         self.plantedMessage = ""
         self.plantedTimer = 0
         self.harvestedMessage = ""
         self.harvestedTimer = 0
+        #This attributes determines when the shop of the game is displayed based on character's location and the user's key presses.
         self.shopToggled = False
 
     def _triggerWarning(self, message):
+        #This allows for any message to be displayed in the warning.
         self.warningMessage = message
+        #This sets the initial time when the warnin was issued:
         self.warningTimer = pygame.time.get_ticks()
 
     def _drawWarning(self, screen):
-        if self.warningMessage and (pygame.time.get_ticks() - self.warningTimer) < 2000:
+        #This draws the warning if there is a warning message and will display the message for the 1 second of elapsed time since the warning has been issued.
+        if self.warningMessage and (pygame.time.get_ticks() - self.warningTimer) < 1000:
             self.warningTextObj.displayDynamicText(screen, self.warningMessage)
 
+    #This loads the character at the character's position.
     def displayCharacter(self, screen):
+        #Initiates the character's rectangle so that the game can register the character's collision with other objects based on the character's position.
         self.characterRect = self.characterImage.get_rect(midbottom=(self.characterXPos, self.characterYPos))
         screen.blit(self.characterImage, self.characterRect)
 
     def walkCharacter(self, keyPress):
+        #Changes the character's image to face the direction of movement as well as changing the position of the character.
         if keyPress[pygame.K_a]:
             self.characterImage = self.characterLeft
             self.characterXPos -= 3
         elif keyPress[pygame.K_d]:
             self.characterImage = self.characterRight
             self.characterXPos += 3
-
+    #Edited by AI to register the colliding plot more efficiently, and to incorporate the AI's warning function and the dynamic text box known as PlantText.
     def plantSeed(self, keyPress, screen, plotArray):
         # Find first plot the character is standing on
         collidingPlot = None
@@ -60,14 +78,20 @@ class Character():
             if self.characterRect.colliderect(plot.plotRect):
                 collidingPlot = plot
                 break
-
+        #Starts a large nested statement loop so that the game gives correct feedback on what user should do to plant the seed.
         if collidingPlot:
-            # Show "just planted" feedback for 2 seconds, regardless of current plot state
-            if self.plantedMessage and (pygame.time.get_ticks() - self.plantedTimer) < 2000:
-                displayText = self.plantedMessage
+            # Show "just planted" feedback for 1 seconds, regardless of current plot state
+            if self.plantedMessage and (pygame.time.get_ticks() - self.plantedTimer) < 1000:
+                #Doesn't display a message if the plot has been just planted or if the plot is not empty.
+                displayText = self.plantedMessage 
+            #Ensures user is planting on an empty plot.
             elif collidingPlot.isEmpty:
+                #Ensures user is selecting a seed to plant.
                 if self.selectedSlot in range(0, 6) and self.inventory[self.selectedSlot].quantity > 0:
+                    #Ensures user has enough water to plant the seed he is selecting.
                     if self.water >= plantInfoList[self.selectedSlot][4]:
+                        #Plants a seed based on the item the user is selecting.
+                        #If the user presses E, it activates the planting mechanic
                         if keyPress[pygame.K_e]:
                             plant_name = self.inventory[self.selectedSlot].plantName
                             match self.selectedSlot:
@@ -83,13 +107,17 @@ class Character():
                                     collidingPlot.plantedSeed(Corn(collidingPlot.plotXPos, collidingPlot.plotYPos))
                                 case 5:
                                     collidingPlot.plantedSeed(Wheat(collidingPlot.plotXPos, collidingPlot.plotYPos))
+                            #Updates the user's inventory and water after he/she has planted a seed.
                             self.inventory[self.selectedSlot].updateQuantity(-1)
                             self.water -= plantInfoList[self.selectedSlot][4]
+                            #Affirms the user has planted a seed for 1 second.
                             self.plantedMessage = f"Planted {plant_name}!"
                             self.plantedTimer = pygame.time.get_ticks()
                             displayText = self.plantedMessage
                         else:
+                            #If the user did not plant, it invites the user to plant.
                             displayText = plantText.baseTextList
+                    #Warnings based on the criteria the user has not met.
                     else:
                         displayText = "Not enough water!"
                         if keyPress[pygame.K_e]:
@@ -102,16 +130,16 @@ class Character():
                 displayText = "Plot is occupied!"
                 if keyPress[pygame.K_e]:
                     self._triggerWarning("This plot is occupied, plant at another plot")
-
+            #Updates the text box to display the correct planting information above the plot colliding with the character.
             plantText.updateTextBox(displayText, collidingPlot.plotXPos - 10, collidingPlot.plotYPos - 100)
             plantText.drawTextBox(screen)
         else:
             self.plantedMessage = ""
             if keyPress[pygame.K_e]:
                 self._triggerWarning("Go to an appropriate empty plot to plant")
-
+        #Updates the warning message if the warning message has been altered.
         self._drawWarning(screen)
-
+     #Edited by AI to register the colliding plot more efficiently, and to incorporate the AI's warning function and the dynamic text box known as PlantText.
     def HarvestFruit(self, keyPress, screen, plotArray):
         # Find first plot the character is standing on
         collidingPlot = None
@@ -121,14 +149,17 @@ class Character():
                 break
 
         if collidingPlot:
-            # Show "just harvested" feedback for 2 seconds, regardless of current plot state
-            if self.harvestedMessage and (pygame.time.get_ticks() - self.harvestedTimer) < 2000:
+            # Show "just harvested" feedback for 1 seconds, regardless of current plot state
+            if self.harvestedMessage and (pygame.time.get_ticks() - self.harvestedTimer) < 1000:
                 displayText = self.harvestedMessage
+                #Ensures user is harvesting a plot with a fruiting plant.
             elif not collidingPlot.isEmpty:
                 if collidingPlot.plant.isFruiting:
+                    #If the user press R on his/her keyboard, it activates the harvesting mechanic.
                     if keyPress[pygame.K_r]:
-                        plant_name = collidingPlot.plant.name  # Capture before harvesting
+                        plant_name = collidingPlot.plant.name  # Capture the name of the plant before harvesting it.
                         match plant_name:
+                            #Adds the fruit into the inventory based on the plot's plant that the user has harvested.
                             case "Apple":
                                 self.inventory[6].updateQuantity(1)
                             case "Pear":
@@ -141,15 +172,19 @@ class Character():
                                 self.inventory[10].updateQuantity(1)
                             case "Wheat":
                                 self.inventory[11].updateQuantity(1)
+                        #Removes the plant from the plot since it has been harvested.
                         collidingPlot.harvestedPlant()
+                        #Affirms that user has planted on the plot by displaying a temporary text since the plot has been harvested.
                         self.harvestedMessage = f"Harvested {plant_name}!"
                         self.harvestedTimer = pygame.time.get_ticks()
                         displayText = self.harvestedMessage
                     else:
                         displayText = HarvText.baseTextList
-                else:
+                #Shows the time needed for the plant to be able to be harested.
+                else: 
                     remainingTime = collidingPlot.plant.growthTime - (int(pygame.time.get_ticks() / 1000) - collidingPlot.plant.plantedTime)
                     displayText = f"{remainingTime}s until harvest"
+                    #Displays tailored feedback to the user guiding the user on the criteria needed to harvest.
                     if keyPress[pygame.K_r]:
                         self._triggerWarning(f"Cannot harvest yet! Wait {remainingTime} seconds")
             else:
@@ -157,51 +192,80 @@ class Character():
                     self._triggerWarning("Nothing to harvest in this plot")
                 self._drawWarning(screen)
                 return
-
+            #Guiding text box is displayed with the specific information about the state of the plant (whether it can be harvested or not)
             HarvText.updateTextBox(displayText, collidingPlot.plotXPos - 10, collidingPlot.plotYPos - 100)
             HarvText.drawTextBox(screen)
         else:
             self.harvestedMessage = ""
             if keyPress[pygame.K_r]:
                 self._triggerWarning("Go to a plot with fruiting plants to harvest")
-
+        #Updates the warning message if the warning message has been altered.
         self._drawWarning(screen)
-
+    #A method tp control what the user can buy based on his/her money.
+    #Since the plant info list is mapped on to the inventory, we can use the index of the plant and the inventory slot of the user with just the index of the plant in the plant info list.
     def buySeed(self, plantIndex):
+        #Finds the price of the plant
         seedCost = plantInfoList[plantIndex][2]
+        #Compares the money of the user and the cost of the plant seed.
         if self.money >= seedCost:
+            #Updates the user's money.
             self.money -= seedCost
             self.inventory[plantIndex].updateQuantity(1)
+            #Alerts the user of the seed they have bought.
             self._triggerWarning(f"Bought 1 {plantInfoList[plantIndex][0]} seed for ${seedCost}!")
         else:
+            #Alerts the user if the user has not enough money to buy the plant seed.
             self._triggerWarning(f"Not enough money! Need ${seedCost}, have ${self.money}")
-    
+    #Calculates the value of all the fruits of the user, adds them to the user's money, and removes all fruits of the user.
     def sellFruits(self):
+        #Initiates the value of the user's fruits
         sumValue = 0 
+        #Since all the fruits are stored between item slots 6 to 12, we can use it as the number of loops for our iteration.
         for index in range(6,12):
+            #Totals the value of the items by adding the number of items multiplied by the fruit price of the item into sum value.
             sumValue += self.inventory[index].quantity*plantInfoList[index-6][3]
             self.inventory[index].updateQuantity(-self.inventory[index].quantity)
+        #Alerts the user of how much money he/she has earned.
         if sumValue > 0:
             self._triggerWarning(f"You have earned {sumValue} dollars")
             self.money += sumValue
+        #Alerts the user if the user has nothing to sell.
         else: 
             self._triggerWarning("You do not have anything to sell")
-        
+
+    #Allows for the user to access the shop through key press when the user's character is colliding with the shop graphic.    
     def accessShop(self, keyPress, screen, shopGraphic, shopMenu):
         if self.characterRect.colliderect(shopGraphic):
             shopText.drawTextBox(screen)
+            #Toggles the shop when the user is presses the key G.
             if keyPress[pygame.K_g] and pygame.KEYDOWN:
                 self.shopToggled = True
+        #If the shop is not near the user, a warning is displayed.
         if self.shopToggled == True:
             shopMenu.displayMenu(screen)
             self._drawWarning(screen)
-    
+    #Allows for the user to exit shop when this method is called.
     def exitShop(self):
         self.shopToggled = False
 
-
-
+    #Modified by AI to use the for key in Inv Keys.
     def accessInv(self, keyPress):
+        """
+        Added by AI: Selects an inventory slot based on the player's key press.
+
+        Each key in InvKeys maps to a slot index via InvMapping (e.g. pressing '1'
+        selects slot 0). When a mapped key is detected:
+          1. self.selectedSlot is updated to the corresponding slot index.
+          2. That slot's .selected flag is set to True so it renders as highlighted.
+          3. All other slots have their .selected flag cleared, ensuring only one
+             slot is active at a time.
+          4. The loop breaks immediately — only the first matched key is processed
+             per frame, preventing conflicting selections if multiple keys are held.
+
+        Args:
+            keyPress: The pygame key state (from pygame.key.get_pressed()), used to
+                      check which keys are currently held down.
+        """
         for key in InvKeys:
             if keyPress[key]:
                 self.selectedSlot = InvMapping[key]
@@ -210,7 +274,7 @@ class Character():
                     if inventorySlot.selected == True and self.inventory.index(inventorySlot) != self.selectedSlot:
                         inventorySlot.selected = False
                 break
-
-    def updateWater(self, summerRange, autumnRange, winterRange, springRange, currentTime):
-        if currentTime == summerRange[-1] or currentTime == autumnRange[-1] or currentTime == winterRange[-1] or currentTime == springRange[-1]:
+    #Updates the water back to thirty at the end of each season. Doesn't need to update for spring since the game ends at that point.
+    def updateWater(self, summerRange, autumnRange, winterRange, currentTime):
+        if currentTime == summerRange[-1] or currentTime == autumnRange[-1] or currentTime == winterRange[-1]:
             self.water = 30

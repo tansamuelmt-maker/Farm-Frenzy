@@ -13,7 +13,6 @@ from Classes.plant import plantInfoList
 from Classes.graphics import Graphics
 from Classes.menu import Menu
 from Classes.plot import createPlotArray
-from Classes.tutorial import displayTutorial
 farmer = Character()
 
 gameClock = pygame.time.Clock()
@@ -94,6 +93,17 @@ barn = Graphics(scaleImg(pygame.image.load('images/barn.png').convert_alpha(), 0
 
 shopMenu = Menu("Shop Menu", 'yellow', (450,80), scaleImg(pygame.image.load('images/shop_menu_bg.png'), 2), shopButtonsList, (300,30))
 
+timeLimit = springTime[-1]
+moneyGoal = 600
+
+def startStartMenu(gameState):
+    gameState['gameStarted'] = False
+    gameState['gameEnded'] = False
+
+def exitGame():
+    pygame.quit()
+    exit()
+
 def startGame(gameState):
     gameState['gameStarted'] = True
     gameState['gameEnded'] = False
@@ -112,53 +122,6 @@ def startGame(gameState):
     exitButton.funct = newFarmer.exitShop
     for button in buyButtonsList:
         button.funct = newFarmer.buySeed
-timeLimit = springTime[-1]
-moneyGoal = 600
-def runGame(background, floor1, floor2, shop, barn, gameState, timeText, moneyText, waterText, gameScreen, userKeyPress, currentTime):
-    farmer = gameState['farmer']
-    plotArray = gameState['plotArray']
-    background.displayImage(gameScreen, currentTime, summerTime, autumnTime,winterTime,springTime)
-    floor1.displayImage(gameScreen, currentTime, summerTime, autumnTime, winterTime, springTime)
-    floor2.displayImage(gameScreen, currentTime, summerTime, autumnTime, winterTime, springTime)
-    shop.displayGraphic(gameScreen)
-    barn.displayGraphic(gameScreen)
-    farmer.displayCharacter(gameScreen)
-    farmer.walkCharacter(userKeyPress)
-
-    for plot in plotArray:
-       if plot.isEmpty == False:
-        plot.plant.growPlant()
-        plot.plant.displayPlant(gameScreen)
-       plot.displayPlot(gameScreen)
-
-    farmer.plantSeed(userKeyPress,gameScreen, plotArray)
-    farmer.HarvestFruit(userKeyPress, gameScreen, plotArray)
-
-    for inventorySlot in list(farmer.inventory):
-       inventorySlot.drawInvSlot(gameScreen)
-    farmer.updateWater(summerTime, autumnTime, winterTime, springTime, currentTime)
-
-    moneyText.displayDynamicText(gameScreen, f'Money: {farmer.money}')
-    waterText.displayDynamicText(gameScreen, f'Water: {farmer.water} / 30')
-    farmer.accessInv(userKeyPress)
-    timeText.displayDynamicText(gameScreen, f'Time : {currentTime}')
-
-    farmer.accessShop(userKeyPress, gameScreen, shop.rect, shopMenu)
-
-    if gameState['tutorialActive']:
-        displayTutorial(gameState, gameScreen, userKeyPress)
-
-    if farmer.money > moneyGoal or currentTime >= timeLimit:
-        gameState['gameStarted'] = False
-        gameState['gameEnded'] = True
-
-def startStartMenu(gameState):
-    gameState['gameStarted'] = False
-    gameState['gameEnded'] = False
-
-def exitGame():
-    pygame.quit()
-    exit()
 
 startGameButton = Button("Start Game", 'white', 45, (300,100), (110, 117, 112), (220, 230, 223),
                    (450, 200), startGame, [gameState], {}, None, None)
@@ -176,15 +139,3 @@ startMenu = Menu("Farm Frenzy", 'Red', (600,150), scaleImg(pygame.image.load('im
 winText = "You Won! Congrats"
 lossText = "You Lost! Better luck next time"
 endMenu = Menu(winText, 'Green', (600,150), scaleImg(pygame.image.load('images/end_menu_bg.png'), 2), endButtonsList, (0,0))
-def endGame(gameState, currentTime, screen):
-    farmer = gameState['farmer']
-    if farmer.money >= moneyGoal:
-        endMenu.updateMenuText(winText)
-        endMenu.displayMenu(screen)
-    if currentTime >= timeLimit:
-        endMenu.updateMenuText(lossText)
-        endMenu.displayMenu(screen)
-
-
-        
-

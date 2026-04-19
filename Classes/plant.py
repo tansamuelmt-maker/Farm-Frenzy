@@ -9,9 +9,6 @@ class Plant():
         self.isFruiting = False
         self.plantImage = None
         self.plantRect = None
-        self.growthImage1 = pygame.Surface((30,30))
-        self.growthImage2 = pygame.Surface((30,50)) 
-        self.growthImage3 = pygame.Surface((30,70))
         self.growthTime = 10
 
     def growPlant(self):
@@ -42,7 +39,6 @@ class Apple(Plant):
      self.waterCost = 4
      self.fruitImage = scaleImg(pygame.image.load('images/apple_fruit.png').convert_alpha(), 0.05)
      self.seedImage = scaleImg(pygame.image.load('images/apple_seed.png').convert_alpha(), 0.05)
-     self.growInWinter = True
 class Pear(Plant):
  def __init__(self, plantXPos, plantYPos):
      super().__init__(plantXPos, plantYPos)
@@ -57,7 +53,6 @@ class Pear(Plant):
      self.waterCost = 3
      self.fruitImage = scaleImg(pygame.image.load('images/pear_fruit.png').convert_alpha(),0.05)
      self.seedImage = scaleImg(pygame.image.load('images/pear_seed.png').convert_alpha(),0.05)
-     self.growInWinter = True
 class Banana(Plant):
  def __init__(self, plantXPos, plantYPos):
      super().__init__(plantXPos, plantYPos)
@@ -71,7 +66,6 @@ class Banana(Plant):
      self.waterCost = 2
      self.fruitImage = scaleImg(pygame.image.load('images/banana_fruit.png').convert_alpha(), 0.05)
      self.seedImage = scaleImg(pygame.image.load('images/banana_seed.png').convert_alpha(), 0.05)
-     self.growInWinter = False
 class Watermelon(Plant):
  def __init__(self, plantXPos, plantYPos):
      super().__init__(plantXPos, plantYPos)
@@ -85,7 +79,6 @@ class Watermelon(Plant):
      self.waterCost = 2
      self.fruitImage = scaleImg(pygame.image.load('images/watermelon_fruit.png').convert_alpha(), 0.05)
      self.seedImage = scaleImg(pygame.image.load('images/watermelon_seed.png').convert_alpha(), 0.05)
-     self.growInWinter = False
 class Corn(Plant):
  def __init__(self, plantXPos, plantYPos):
      super().__init__(plantXPos, plantYPos)
@@ -99,7 +92,6 @@ class Corn(Plant):
      self.waterCost = 1
      self.fruitImage = scaleImg(pygame.image.load('images/corn_fruit.png').convert_alpha(), 0.05)
      self.seedImage = scaleImg(pygame.image.load('images/corn_seed.png').convert_alpha(), 0.05)
-     self.growInWinter = False
 class Wheat(Plant):
  def __init__(self, plantXPos, plantYPos):
      super().__init__(plantXPos, plantYPos)
@@ -113,7 +105,6 @@ class Wheat(Plant):
      self.waterCost = 1
      self.fruitImage = scaleImg(pygame.image.load('images/wheat_fruit.png').convert_alpha(), 0.05)
      self.seedImage = scaleImg(pygame.image.load('images/wheat_seed.png').convert_alpha(), 0.05)
-     self.growInWinter = False
      
 
 def createPlantInfoList():
@@ -129,8 +120,7 @@ def createPlantInfoList():
       plantWaterCost = plant.waterCost
       plantSeedImage = plant.seedImage
       plantFruitImage = plant.fruitImage
-      plantWinterGrowth = plant.growInWinter
-      plantInfoList.append([plantName, plantGrowthTime, plantSeedCost, plantFruitPrice, plantWaterCost, plantSeedImage, plantFruitImage, plantWinterGrowth])
+      plantInfoList.append([plantName, plantGrowthTime, plantSeedCost, plantFruitPrice, plantWaterCost, plantSeedImage, plantFruitImage])
    return plantInfoList
 plantInfoList = createPlantInfoList()
 
