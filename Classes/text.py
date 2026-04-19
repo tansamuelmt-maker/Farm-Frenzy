@@ -1,12 +1,11 @@
 import pygame
 pygame.font.init()
 class Text():
-    def __init__(self, fontSize, fontColor, text, fontPos, tag=None):
+    def __init__(self, fontSize, fontColor, text, fontPos):
         self.fontSize = fontSize
         self.fontColor = fontColor
         self.text = text
         self.fontPos = fontPos
-        self.tag = tag
         self.fontstyle = 'images/Jersey10-Regular.ttf'
         self.font = pygame.font.Font(self.fontstyle, fontSize)
         self.textSurf = self.font.render(text, False, fontColor)
@@ -24,13 +23,16 @@ class Text():
         screen.blit(self.textSurf, self.textRect)
     
     def displayDynamicText(self, screen, newText):
-        self.text = newText
-        self.textSurf = self.font.render(self.text, False, self.fontColor)
+        if newText != None:
+          self.text = newText
+          self.textSurf = self.font.render(self.text, False, self.fontColor)
         screen.blit(self.textSurf, self.textRect)
 
-    def textLifeCycle(self, lifeSpan):
-        elapsedTime = (pygame.time.get_ticks() - self.createdTime) / 1000
-        if elapsedTime < lifeSpan:
-            return True
-        else:
-            return False
+    def displayTemp(self, screen, newText):
+          elapsedTime = (pygame.time.get_ticks() - self.createdTime) / 1000
+          if elapsedTime < 2:
+             return True
+          else:
+             return False
+    
+

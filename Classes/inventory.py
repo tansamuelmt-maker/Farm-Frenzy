@@ -20,7 +20,8 @@ class InventorySlot():
     def drawInvSlot(self, screen):
         if self.selected == True:
          if self.selected > 0:
-          self.selectedText.displayDynamicText(screen, f'{self.quantity} {self.name}')
+            if self.quantity > 0:
+                self.selectedText.displayDynamicText(screen, f'{self.quantity} {self.name}')
          pygame.draw.rect(screen, (242, 250, 7), (self.invXPos,self.invYPos, 40,40))
         elif self.selected == False:
          pygame.draw.rect(screen, (102, 95, 95), (self.invXPos,self.invYPos, 40,40))
@@ -29,17 +30,19 @@ class InventorySlot():
            screen.blit(self.itemImage, self.itemrect)
         self.quantityText.displayDynamicText(screen, f'{self.quantity}')
         self.keyMappingText.displayStaticText(screen)
+
     def updateQuantity(self, changeInQuantity):
        self.quantity += changeInQuantity
+       
 def createInventory(plantInfoList,KeyMapping):
     inventorySlots = []
     startingInvXPos = 43
     for x in range(6):
-        newSlot = InventorySlot(False, startingInvXPos,plantInfoList[x][0], "Seed", 5, plantInfoList[x][5], KeyMapping[x])
+        newSlot = InventorySlot(False, startingInvXPos,plantInfoList[x][0], "Seed", 0, plantInfoList[x][5], KeyMapping[x])
         inventorySlots.append(newSlot)
         startingInvXPos += 43
     for x in range(6):
-       newSlot = InventorySlot(False, startingInvXPos,plantInfoList[x][0], "Fruit", 5, plantInfoList[x][6], KeyMapping[x+6])
+       newSlot = InventorySlot(False, startingInvXPos,plantInfoList[x][0], "Fruit", 0, plantInfoList[x][6], KeyMapping[x+6])
        inventorySlots.append(newSlot)
        startingInvXPos += 43
     return inventorySlots
