@@ -158,7 +158,7 @@ def createPlantInfoList():
         plantFruitImage = plant.fruitImage
         #Appending a sublist into the list creates a 2D array for fast and easy access, decreasing latency and complexity of the game.
         plantInfoList.append([plantName, plantGrowthTime, plantSeedCost, plantFruitPrice, plantWaterCost, plantSeedImage, plantFruitImage])
-    return plantInfoList
+    return tuple(plantInfoList)
 #Calls createPlantInfoList before game starts so that other classes can retrieve information.
 plantInfoList = createPlantInfoList()
 
