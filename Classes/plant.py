@@ -57,7 +57,7 @@ class Apple(Plant):
         self.name = "Apple"
         #Has unique stats that differ from other plants.
         self.growthTime = 45
-        self.fruitPrice = 30
+        self.fruitPrice = 45
         self.seedCost = 24
         self.waterCost = 4
         #Fruit image and seed image for display on shops and inventory
@@ -73,7 +73,7 @@ class Pear(Plant):
         self.growthImage3 = scaleImg(pygame.image.load('images/pear_stage4_fruiting.png').convert_alpha(), 0.2)
         self.name = "Pear"
         self.growthTime = 35
-        self.fruitPrice = 25
+        self.fruitPrice = 33
         self.seedCost = 20
         self.waterCost = 3
         self.fruitImage = scaleImg(pygame.image.load('images/pear_fruit.png').convert_alpha(),0.05)
@@ -88,7 +88,7 @@ class Banana(Plant):
         self.growthImage3 = scaleImg(pygame.image.load('images/banana_stage3_fruiting.png').convert_alpha(), 0.1)
         self.name = "Banana"
         self.growthTime = 20
-        self.fruitPrice = 26
+        self.fruitPrice = 38
         self.seedCost = 15
         self.waterCost = 5
         self.fruitImage = scaleImg(pygame.image.load('images/banana_fruit.png').convert_alpha(), 0.05)
@@ -103,7 +103,7 @@ class Watermelon(Plant):
         self.growthImage3 = scaleImg(pygame.image.load('images/watermelon_stage3_fruiting.png').convert_alpha(), 0.1)
         self.name = "Watermelon"
         self.growthTime = 25
-        self.fruitPrice = 35
+        self.fruitPrice = 43
         self.seedCost = 17
         self.waterCost = 5
         self.fruitImage = scaleImg(pygame.image.load('images/watermelon_fruit.png').convert_alpha(), 0.05)
@@ -118,7 +118,7 @@ class Corn(Plant):
         self.growthImage3 = scaleImg(pygame.image.load('images/corn_stage3_mature.png').convert_alpha(), 0.1)
         self.name = "Corn"
         self.growthTime = 13
-        self.fruitPrice = 10
+        self.fruitPrice = 15
         self.seedCost = 7
         self.waterCost = 1
         self.fruitImage = scaleImg(pygame.image.load('images/corn_fruit.png').convert_alpha(), 0.05)
@@ -133,7 +133,7 @@ class Wheat(Plant):
         self.growthImage3 = scaleImg(pygame.image.load('images/wheat_stage3_mature.png').convert_alpha(), 0.1)
         self.name = "Wheat"
         self.growthTime = 9
-        self.fruitPrice = 9
+        self.fruitPrice = 14
         self.seedCost = 7
         self.waterCost = 1
         self.fruitImage = scaleImg(pygame.image.load('images/wheat_fruit.png').convert_alpha(), 0.05)
