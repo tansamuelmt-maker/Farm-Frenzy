@@ -53,20 +53,20 @@ class Button():
             screen.blit(self.image,self.imagePos)
         #First if statement determines whether user's mouse is on the button
         if self.buttonRect.collidepoint(mousePos):
-          #If the mouse is not pressed, then we know the user has not pressed down on his/her mouse and the user has not clicked the button. Therefore the attributes have been set as such.
-          if pygame.mouse.get_pressed()[0] == 0:
-              self.clicked = False
-              self.mouseWasUp = True
-          #If user clicks his/her mouse, while hovering over the text, we know that the button has been pressed, and since that the user mouse has been clicked, the mouse is definitely not up.
-          elif pygame.mouse.get_pressed()[0] == 1 and not self.clicked and self.mouseWasUp:
-              self.funct(*self.functArgs, **self.functKwargs)
-              self.clicked = True
-              self.mouseWasUp = False #The reason mouseWasUp is used is to prevent multiple calls of the function every time the button is clicked. When the button gets clicked, these variables change so that the conditions for executing the button
-              # are no longer true and therefore the button's function can only be called once a click.
+            #If the mouse is not pressed, then we know the user has not pressed down on his/her mouse and the user has not clicked the button. Therefore the attributes have been set as such.
+            if pygame.mouse.get_pressed()[0] == 0:
+                self.clicked = False
+                self.mouseWasUp = True
+            #If user clicks his/her mouse, while hovering over the text, we know that the button has been pressed, and since that the user mouse has been clicked, the mouse is definitely not up.
+            elif pygame.mouse.get_pressed()[0] == 1 and not self.clicked and self.mouseWasUp:
+                self.funct(*self.functArgs, **self.functKwargs)
+                self.clicked = True
+                self.mouseWasUp = False #The reason mouseWasUp is used is to prevent multiple calls of the function every time the button is clicked. When the button gets clicked, these variables change so that the conditions for executing the button
+                # are no longer true and therefore the button's function can only be called once a click.
         else:
-          #This ensures that the button class does not register the mouse's click on another surface as a click to the button.
-          if pygame.mouse.get_pressed()[0] == 0:
-              self.clicked = False
+            #This ensures that the button class does not register the mouse's click on another surface as a click to the button.
+            if pygame.mouse.get_pressed()[0] == 0:
+                self.clicked = False
     
     #A function that calls the method of the text box in the hover text attribute to display the hover text.
     def drawHoverText(self, screen):

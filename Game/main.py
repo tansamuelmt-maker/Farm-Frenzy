@@ -8,24 +8,24 @@ from Game.init import (FFsettings, gameClock,
     waterText, timeText,
     shop, barn,
     startMenu,
-    gameState, winText, lossText)
+    gameState, winText, lossText, springTime, summerTime, winterTime, autumnTime)
 from Game.gameProcesses import runGame, endGame
 gameScreen = FFsettings.startScreen()
 while True:
     userKeyPress = pygame.key.get_pressed()
     for event in pygame.event.get():
-       if event.type == pygame.QUIT:
-          pygame.quit()
-          exit()
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
        
     currentTime = int(pygame.time.get_ticks() / 1000 - gameState['startTime'])
     
     if gameState['gameStarted'] == False and gameState['gameEnded'] == False:
-       startMenu.displayMenu(gameScreen)
+        startMenu.displayMenu(gameScreen)
     elif gameState['gameStarted'] == True and gameState['gameEnded'] == False:
-       runGame(background, floor1, floor2, shop, barn, gameState, timeText, moneyText, waterText, gameScreen, userKeyPress, currentTime)
+        runGame(background, floor1, floor2, shop, barn, gameState, timeText, moneyText, waterText, gameScreen, userKeyPress, currentTime, springTime, autumnTime, winterTime, summerTime)
     elif gameState['gameStarted'] == False and gameState['gameEnded'] == True:
-       endGame(gameState, currentTime, gameScreen, winText, lossText)
+        endGame(gameState, currentTime, gameScreen, winText, lossText)
 
     FFsettings.startClock(gameClock)
     pygame.display.update()
