@@ -37,7 +37,9 @@ def createPlotArray():
     newPlotArray = []
     #starting value gets incremented after every new plot is instantiated to ensure each plot has a unique position and doesn't overlap.
     startingXPos = 100
-    for x in range(12):
+    #Range of all plots
+    plotRange = 12
+    for x in range(plotRange):
         #Plot is instantiated with its x position
         newPlot = Plot(startingXPos)
         #Plot is added to plot array

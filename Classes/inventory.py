@@ -68,13 +68,15 @@ def createInventory(plantInfoList,KeyMapping):
     inventorySlots = []
     #Inventory slots are given a unique X position so they don't overlap.
     startingInvXPos = 43
+    #Range of half of the inventory
+    halfInvRange = 6
     #1st loop is to instantiate inventory slots for seeds.
-    for x in range(6):
+    for x in range(halfInvRange):
         newSlot = InventorySlot(False, startingInvXPos,plantInfoList[x][0], "Seed", 0, plantInfoList[x][5], KeyMapping[x])
         inventorySlots.append(newSlot)
         startingInvXPos += 43
     #2nd loop is to instantiate inventory slots for plants.
-    for x in range(6):
+    for x in range(halfInvRange):
         newSlot = InventorySlot(False, startingInvXPos,plantInfoList[x][0], "Fruit", 0, plantInfoList[x][6], KeyMapping[x+6])
         inventorySlots.append(newSlot)
         startingInvXPos += 43
